@@ -1,0 +1,15 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: argocd-sync
+spec:
+  schedule: "*/10 * * * * *"
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+          - name: argocd-sync
+            image: argoproj/argocd-cli:v2.2.2  # Use the ArgoCD CLI image
+            command: ["argocd", "app", "sync", "my-app"]  # Replace "my-app" with your application name
+          restartPolicy: OnFailure
